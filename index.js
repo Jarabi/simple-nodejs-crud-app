@@ -1,18 +1,25 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
-const Product = require('./models/product.model.js');
+const dotenv = require('dotenv');
 const productRoute = require('./routes/product.route');
 
 // Database connection
+dotenv.config();
+
+const db_user = process.env.DB_USER;
+const passphrase = process.env.PASSPHRASE;
+const database = process.env.DATABASE;
+const port = process.env.PORT;
+
 mongoose
   .connect(
-    'mongodb+srv://jarabialex:4RQLXxly3pU4V8S0@nodebackend.qxdzdtm.mongodb.net/node-crud-api?retryWrites=true&w=majority'
+    `mongodb+srv://${db_user}:${passphrase}@nodebackend.qxdzdtm.mongodb.net/${database}?retryWrites=true&w=majority`
   )
   .then(() => {
     console.log('Connected to MongoDB');
 
-    app.listen(3000, () => {
+    app.listen(port, () => {
       console.log('Listening on port 3000');
     });
   })
